@@ -3,7 +3,7 @@
 local M = {}
 
 function M.undo_selection()
-  vim.cmd("normal! u")
+  return "basic working"
 end
 
 return M
