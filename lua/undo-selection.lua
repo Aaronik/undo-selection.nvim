@@ -1,28 +1,27 @@
--- This file is called undo_selection.lua, it's a neovim plugin.
+-- main module file
+local module = require("undo-selection.module")
 
+---@class Config
+---@field opt string Your config option
+local config = {
+  opt = "Hello!",
+}
+
+---@class MyModule
 local M = {}
 
--- function that prints a table
-local function print_table(t)
-  for k, v in pairs(t) do
-    print(k .. ": " .. v)
-  end
+---@type Config
+M.config = config
+
+---@param args Config?
+-- you can define your setup function here. Usually configurations can be merged, accepting outside params and
+-- you can also put some validation here for those.
+M.setup = function(args)
+  M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
--- returns a table with the current visual selection
-local function get_visual_selection()
-  local selection = {}
-  selection.start_line = vim.fn.getpos("'<")[2]
-  selection.end_line = vim.fn.getpos("'>")[2]
-  selection.start_column = vim.fn.getpos("'<")[3]
-  selection.end_column = vim.fn.getpos("'>")[3]
-  return selection
-end
-
-function M.undo_selection()
-  local selection = get_visual_selection()
-  print_table(selection)
-  return selection
+M.undo_selection = function()
+  module.undo_selection()
 end
 
 return M
