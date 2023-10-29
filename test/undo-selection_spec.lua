@@ -3,7 +3,7 @@
 -- TODO get global vim type hints
 
 describe("Undo Selection", function()
-  local undo_selection = require("../lua/undo_selection")
+  local undo_selection = require("../lua/undo-selection")
 
   it("returns a table with the current visual selection", function()
     -- Simulate a user making a visual selection
