@@ -5,4 +5,4 @@ if exists('g:undo_selection_loaded')
 endif
 let g:undo_selection_loaded = 1
 
-runtime! plugin/undo_selection.vim
+runtime! plugin/undo-selection.vim

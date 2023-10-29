@@ -1,16 +1,36 @@
 ---@diagnostic disable: undefined-global
 
--- TODO get global vim type hints
+local vim = vim -- TODO Get this to provide type feedback
+local assert = require("luassert")
+
+-- function that prints a table
+local function print_table(t)
+  for k, v in pairs(t) do
+    print(k .. ": " .. v)
+  end
+end
 
 describe("Undo Selection", function()
   local undo_selection = require("../lua/undo-selection")
 
   it("returns a table with the current visual selection", function()
-    -- Simulate a user making a visual selection
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {"This is a test", "Another line", "Yet another line"})
-    vim.api.nvim_feedkeys('ggVG', 'n', false)
 
+    -- Add some text to the buffer
+    vim.api.nvim_exec([[ call append(0, ["Nonsense text 1", "Nonsense text 2"]) ]], false)
+
+    -- Ensure that text was added
+    local current_buffer_contents = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    assert.same({ [1] = "Nonsense text 1", [2] = "Nonsense text 2", [3] = "" }, current_buffer_contents)
+
+    -- Select all the text in the buffer
+    -- vim.cmd([[ normal! ggVG ]], false)
+    vim.api.nvim_input('ggVG')
+
+    -- Delay to ensure the selection is registered
+    vim.api.nvim_command('sleep 100m')
+
+    -- Ensure undo_selection is getting the whole selection
     local selection = undo_selection.undo_selection()
-    assert.same({start_line = 0, end_line = 2, start_column = 0, end_column = 0}, selection)
+    assert.same({ start_line = 0, end_line = 2, start_column = 0, end_column = 15 }, selection)
   end)
 end)

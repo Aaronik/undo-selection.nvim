@@ -9,6 +9,5 @@
 # Vim undo files
 *~
 /luarocks
-/lua
 /lua_modules
 /.luarocks
