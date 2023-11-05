@@ -5,12 +5,14 @@ local M = {}
 local function print_table(t)
   for k, v in pairs(t) do
     if type(v) == "table" then
-      print(k .. ": ")
+      vim.api.nvim_command("echo '" .. k .. ": '")
       print_table(v)
     else
-      print(k .. ": " .. tostring(v))
+      vim.api.nvim_command("echo '" .. k .. ": " .. tostring(v) .. "'")
     end
   end
+  vim.api.nvim_command("echo 'Press any key to continue'")
+  vim.api.nvim_command("silent! call getchar()")
 end
 
 M.undo_selection = function()
