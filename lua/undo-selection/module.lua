@@ -8,7 +8,7 @@ local util = require('util')
 M.undo_selection = function()
   local selection = M.get_visual_selection()
   print('selection:')
-  util.print_table(selection)
+  -- util.print_table(selection)
 
   print('ok')
   return selection
@@ -27,7 +27,7 @@ M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
   local lines = {}
 
-  util.print_table(history)
+  -- util.print_table(history)
 
   for _, change in ipairs(history.entries) do
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
