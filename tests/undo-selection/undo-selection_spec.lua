@@ -1,8 +1,9 @@
-local undo_selection = require("../lua/undo-selection")
+---@diagnostic disable: undefined-global
+
+local module = require("../lua/undo-selection.module")
 local vim = vim -- TODO Get this to provide type feedback
 local assert = require("luassert")
-
----@diagnostic disable: undefined-global
+local spy = require('luassert.spy')
 
 -- TODO I can't for the life of me get this working.
 describe("get_visual_selection", function()
@@ -22,7 +23,7 @@ describe("get_visual_selection", function()
     vim.api.nvim_command('sleep 100m')
 
     -- Ensure get_visual_selection is getting the whole selection
-    local selection = undo_selection.get_visual_selection()
+    local selection = module.get_visual_selection()
     assert.same({ start_line = 0, end_line = 2, start_column = 0, end_column = 15 }, selection)
   end)
 end)
@@ -49,7 +50,36 @@ describe('find_undo_history_for_selection', function()
       { lnum = 3 },
     }
 
-    local result = undo_selection.find_undo_history_for_selection(selection)
+    local result = module.find_undo_history_for_selection(selection)
     assert.are.same(expected, result)
   end)
 end)
+
+describe('undo_lines', function()
+  it('should call vim.fn["undo"] for each line', function()
+    local lines = {1, 2, 3}
+    local undo_spy = spy.on(vim.fn, 'undo')
+
+    module.undo_lines(lines)
+
+    assert.spy(undo_spy).was_called(3)
+    assert.spy(undo_spy).was_called_with(1)
+    assert.spy(undo_spy).was_called_with(2)
+    assert.spy(undo_spy).was_called_with(3)
+  end)
+end)
+
+describe('undo_lines', function()
+  it('should call vim.api.nvim_call_function for each line', function()
+    local lines = {1, 2, 3}
+    local undo_spy = spy.on(vim.api, 'nvim_buf_set_lines')
+
+    module.undo_lines(lines)
+
+    assert.spy(undo_spy).was_called(3)
+    -- assert.spy(undo_spy).was_called_with('undo', {1})
+    -- assert.spy(undo_spy).was_called_with('undo', {2})
+    -- assert.spy(undo_spy).was_called_with('undo', {3})
+  end)
+end)
+

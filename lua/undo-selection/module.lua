@@ -30,15 +30,32 @@ end
 
 M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
-  local relevant_history = {}
+  local lines = {}
 
   for _, change in ipairs(history.entries) do
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
-      table.insert(relevant_history, change)
+      table.insert(lines, change)
     end
   end
 
-  return relevant_history
+  return lines
 end
+
+-- M.undo_lines = function(lines)
+--   print_table(vim.fn)
+--   for _, line in ipairs(lines) do
+--     vim.fn['undo'](line)
+--   end
+-- end
+
+M.undo_lines = function(lines)
+  for _, line in ipairs(lines) do
+    vim.api.nvim_buf_set_lines(0, line-1, line, false, {})
+  end
+end
+
+-- * get the visual selection
+-- * find the lines from the undo history
+-- * undo just those lines
 
 return M

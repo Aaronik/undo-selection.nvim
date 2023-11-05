@@ -2,10 +2,7 @@
 local module = require("undo-selection.module")
 
 ---@class Config
----@field opt string Your config option
-local config = {
-  opt = "Hello!",
-}
+local config = {}
 
 ---@class MyModule
 local M = {}
@@ -20,11 +17,13 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
--- M.undo_selection = module.undo_selection
+M.undo_selection = module.undo_selection
+M.find_undo_history_for_selection = module.find_undo_history_for_selection
+M.get_visual_selection = module.get_visual_selection
 
--- Assigning everything that module exposes to M
-for k, v in pairs(module) do
-    M[k] = v
-end
+-- -- Assigning everything that module exposes to M
+-- for k, v in pairs(module) do
+--     M[k] = v
+-- end
 
 return M
