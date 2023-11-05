@@ -17,9 +17,23 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
-M.undo_selection = module.undo_selection
-M.find_undo_history_for_selection = module.find_undo_history_for_selection
-M.get_visual_selection = module.get_visual_selection
+M.undo_selection = function(...)
+  package.loaded['undo-selection.module'] = nil
+  local module = require('undo-selection.module')
+  return module.undo_selection(...)
+end
+
+M.find_undo_history_for_selection = function(...)
+  package.loaded['undo-selection.module'] = nil
+  local module = require('undo-selection.module')
+  return module.find_undo_history_for_selection(...)
+end
+
+M.get_visual_selection = function(...)
+  package.loaded['undo-selection.module'] = nil
+  local module = require('undo-selection.module')
+  return module.get_visual_selection(...)
+end
 
 -- -- Assigning everything that module exposes to M
 -- for k, v in pairs(module) do
