@@ -1,26 +1,16 @@
 ---@class UndoSelectionModule
 local M = {}
 
--- function that prints a table
-local function print_table(t)
-  for k, v in pairs(t) do
-    if type(v) == "table" then
-      vim.api.nvim_command("echo '" .. k .. ": '")
-      print_table(v)
-    else
-      vim.api.nvim_command("echo '" .. k .. ": " .. tostring(v) .. "'")
-    end
-  end
-  vim.api.nvim_command("echo 'Press any key to continue'")
-  vim.api.nvim_command("silent! call getchar()")
-end
+local util = require('util')
+
+-- Now you can use util.print_table instead of print_table
 
 M.undo_selection = function()
   local selection = M.get_visual_selection()
   print('selection:')
-  print_table(selection)
+  util.print_table(selection)
 
-  print('')
+  print('ok')
   return selection
 end
 
@@ -37,7 +27,7 @@ M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
   local lines = {}
 
-  print_table(history)
+  util.print_table(history)
 
   for _, change in ipairs(history.entries) do
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
