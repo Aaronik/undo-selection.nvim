@@ -1,5 +1,5 @@
 -- main module file
-local module = require("undo-selection.module")
+-- local module = require("undo-selection.module")
 
 ---@class Config
 local config = {}
@@ -17,22 +17,10 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
-M.undo_selection = function(...)
+M.undo_selection = function()
   package.loaded['undo-selection.module'] = nil
   local module = require('undo-selection.module')
-  return module.undo_selection(...)
-end
-
-M.find_undo_history_for_selection = function(...)
-  package.loaded['undo-selection.module'] = nil
-  local module = require('undo-selection.module')
-  return module.find_undo_history_for_selection(...)
-end
-
-M.get_visual_selection = function(...)
-  package.loaded['undo-selection.module'] = nil
-  local module = require('undo-selection.module')
-  return module.get_visual_selection(...)
+  return module.undo_selection()
 end
 
 -- -- Assigning everything that module exposes to M
