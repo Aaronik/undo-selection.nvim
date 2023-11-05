@@ -17,7 +17,10 @@ end
 
 M.undo_selection = function()
   local selection = M.get_visual_selection()
+  print('selection:')
   print_table(selection)
+
+  print('')
   return selection
 end
 
