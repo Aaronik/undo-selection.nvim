@@ -17,10 +17,7 @@ end
 
 M.undo_selection = function()
   local selection = M.get_visual_selection()
-  -- print_table(selection)
-  vim.api.nvim_command("echo '" .. tostring(print_table(selection)) .. "'")
-  vim.api.nvim_command("echo 'Press any key to continue'")
-  vim.api.nvim_command("silent! call getchar()")
+  print_table(selection)
   return selection
 end
 
