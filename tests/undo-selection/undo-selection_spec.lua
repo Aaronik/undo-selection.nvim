@@ -43,7 +43,7 @@ describe('find_undo_history_for_selection', function()
       }
     end
 
-    local selection = { start_line = 2, end_line = 3, start_column = 0, end_column = 10000} -- TODO use actual number
+    local selection = { start_line = 2, end_line = 3, start_column = 0, end_column = 2147483647 } -- TODO use actual number
 
     local expected = {
       { lnum = 2 },
@@ -62,10 +62,10 @@ describe('undo_lines', function()
 
     module.undo_lines(lines)
 
-    assert.spy(undo_spy).was_called(3)
-    assert.spy(undo_spy).was_called_with(1)
-    assert.spy(undo_spy).was_called_with(2)
-    assert.spy(undo_spy).was_called_with(3)
+    assert.spy(undo_spy).was.called(3)
+    assert.spy(undo_spy).was.called_with(1)
+    assert.spy(undo_spy).was.called_with(2)
+    assert.spy(undo_spy).was.called_with(3)
   end)
 end)
 
@@ -76,7 +76,7 @@ describe('undo_lines', function()
 
     module.undo_lines(lines)
 
-    assert.spy(undo_spy).was_called(3)
+    assert.spy(undo_spy).was.called(3)
     -- assert.spy(undo_spy).was_called_with('undo', {1})
     -- assert.spy(undo_spy).was_called_with('undo', {2})
     -- assert.spy(undo_spy).was_called_with('undo', {3})

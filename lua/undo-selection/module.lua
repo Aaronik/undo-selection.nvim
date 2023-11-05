@@ -1,4 +1,4 @@
----@class CustomModule
+---@class UndoSelectionModule
 local M = {}
 
 -- function that prints a table
@@ -13,6 +13,13 @@ local function print_table(t)
   end
 end
 
+M.undo_selection = function()
+  local selection = M.get_visual_selection()
+  -- print_table(selection)
+  vim.api.nvim_out_write(tostring(print_table(selection)) .. "\n")
+  return selection
+end
+
 M.get_visual_selection = function()
   local selection = {}
   selection.start_line = vim.fn.getpos("'<")[2]
@@ -22,15 +29,11 @@ M.get_visual_selection = function()
   return selection
 end
 
-M.undo_selection = function()
-  local selection = M.get_visual_selection()
-  print_table(selection)
-  return selection
-end
-
 M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
   local lines = {}
+
+  print_table(history)
 
   for _, change in ipairs(history.entries) do
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
