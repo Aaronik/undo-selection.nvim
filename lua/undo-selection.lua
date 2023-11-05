@@ -20,8 +20,11 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
-M.undo_selection = function()
-  module.undo_selection()
+-- M.undo_selection = module.undo_selection
+
+-- Assigning everything that module exposes to M
+for k, v in pairs(module) do
+    M[k] = v
 end
 
 return M
