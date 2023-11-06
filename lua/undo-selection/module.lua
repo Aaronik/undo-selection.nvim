@@ -8,9 +8,11 @@ M.undo_selection = function()
   print('selection:')
   util.print_table(selection)
 
-  local undo_history = M.find_undo_history_for_selection(selection)
-  print('undo_history')
-  util.print_table(undo_history)
+  local changes = M.find_undo_history_for_selection(selection)
+  print('changes')
+  util.print_table(changes)
+
+  M.undo_changes(changes)
 end
 
 M.get_visual_selection = function()
@@ -46,3 +48,38 @@ end
 -- * undo just those lines
 
 return M
+
+-- history will look like:
+-- seq_cur: 103
+-- save_cur: 36
+-- seq_last: 103
+-- time_cur: 1699232889
+-- save_last: 36
+-- change
+--   time: 1699226596
+--   seq: 1
+--   seq_last: 107
+-- entries:
+-- 1:
+-- alt:
+--   1:
+--     alt:
+--       1:
+--         time: 1699227474
+--         save: 10
+--         seq: 27
+--     save: 12
+--     time: 1699227713
+--     seq: 28
+--   2:
+--     time: 1699227736
+--     seq: 29
+-- seq: 30
+-- time: 1699227787
+--   2:
+--     time: 1699226659
+--     save: 1
+--     newhead: 1
+--     seq: 2
+--   etc
+
