@@ -23,9 +23,6 @@ M.get_visual_selection = function()
 end
 
 M.find_undo_history_for_selection = function(selection)
-  local history = vim.fn['undotree']()
-  local lines = {}
-
   -- history will look like:
   -- seq_cur: 103
   -- save_cur: 36
@@ -42,24 +39,12 @@ M.find_undo_history_for_selection = function(selection)
   --     seq: 1
   --   2:
   --     time: 1699226659
-  --     seq: 2
-  --   3:
-  --     time: 1699226715
-  --     seq: 3
-  --   4:
-  --     time: 1699226716
-  --     seq: 4
   --     save: 1
-  --   5:
-  --     time: 1699226726
-  --     seq: 5
-  --     save: 2
-  --   6:
-  --     time: 1699226998
-  --     seq: 6
-  --   7:
-  --     time: 1699227000
-  --     seq: 7
+  --     seq: 2
+  --   etc
+
+  local history = vim.fn['undotree']()
+  local changes = {}
 
   print('history\n')
   util.print_table(history)
@@ -69,16 +54,16 @@ M.find_undo_history_for_selection = function(selection)
     util.print_table(change, 2)
 
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
-      table.insert(lines, change)
+      table.insert(changes, change)
     end
   end
 
-  return lines
+  return changes
 end
 
-M.undo_lines = function(lines)
-  for _, line in ipairs(lines) do
-    vim.api.nvim_buf_set_lines(0, line-1, line, false, {})
+M.undo_changes = function(changes)
+  for _, change in ipairs(changes) do
+    vim.api.nvim_call_function('undo', {change.seq})
   end
 end
 
