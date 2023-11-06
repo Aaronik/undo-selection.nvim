@@ -3,6 +3,12 @@ local M = {}
 
 local util = require('util')
 
+local function _traverse_undotree(opts, entries, level)
+  -- function body goes here
+end
+
+M.traverse_undotree = _traverse_undotree
+
 -- The main function
 M.undo_selection = function()
   local selection = M.get_visual_selection()

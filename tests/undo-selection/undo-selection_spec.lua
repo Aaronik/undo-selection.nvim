@@ -67,3 +67,19 @@ describe('undo_lines', function()
   end)
 end)
 
+describe('traverse_undotree', function()
+  it('should return the correct undo list', function()
+    -- TODO: Replace with actual test data and expected result
+    local opts = {}
+    local entries = {}
+    local level = 0
+
+    local result = module.traverse_undotree(opts, entries, level)
+
+    -- TODO: Replace with actual expected result
+    local expected = {}
+
+    assert.are.same(expected, result)
+  end)
+end)
+
