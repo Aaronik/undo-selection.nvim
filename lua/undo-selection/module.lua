@@ -22,6 +22,11 @@ local function _traverse_undotree(opts, entries, level)
     local ordinal = ""
     local additions = {}
     local deletions = {}
+    -- [Aaron] We're going to look for something like this to change. Instead
+    -- of going through every undo history entry and calculating the diff,
+    -- we're going to go through only the entries specified. Then we're going
+    -- to calculate the diff of the buffer before the first one to after the last
+    -- one. Then we're going to apply that diff.
     local on_hunk_callback = function(start_a, count_a, start_b, count_b)
       -- build diff file header for this hunk, this is important for delta to syntax highlight
       -- TODO: timestamps are being omitted, but could be included here
