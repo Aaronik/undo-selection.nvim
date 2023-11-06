@@ -55,10 +55,10 @@ end)
 
 describe('undo_lines', function()
   it('should call vim.api.nvim_call_function for each line', function()
-    local lines = {1, 2, 3}
+    local changes = {1, 2, 3}
     local undo_spy = spy.on(vim.api, 'nvim_buf_set_lines')
 
-    module.undo_lines(lines)
+    module.undo_changes(changes)
 
     assert.spy(undo_spy).was.called(3)
     -- assert.spy(undo_spy).was_called_with('undo', {1})
