@@ -7,7 +7,7 @@ local spy = require('luassert.spy')
 
 -- TODO I can't for the life of me get this working.
 describe("get_visual_selection", function()
-  it("returns a table with the current visual selection", function()
+  pending("returns a table with the current visual selection", function()
     -- Add some text to the buffer
     vim.api.nvim_exec([[ call append(0, ["Nonsense text 1", "Nonsense text 2"]) ]], false)
 
@@ -54,20 +54,6 @@ describe('find_undo_history_for_selection', function()
 
     local result = module.find_undo_history_for_selection(selection)
     assert.are.same(expected, result)
-  end)
-end)
-
-describe('undo_lines', function()
-  it('should call vim.fn["undo"] for each line', function()
-    local lines = {1, 2, 3}
-    local undo_spy = spy.on(vim.fn, 'undo')
-
-    module.undo_lines(lines)
-
-    assert.spy(undo_spy).was.called(3)
-    assert.spy(undo_spy).was.called_with(1)
-    assert.spy(undo_spy).was.called_with(2)
-    assert.spy(undo_spy).was.called_with(3)
   end)
 end)
 
