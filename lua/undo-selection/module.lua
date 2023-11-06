@@ -28,6 +28,9 @@ M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
   local lines = {}
 
+  print('history.entries:\n')
+  util.print_table(history.entries)
+
   for _, change in ipairs(history.entries) do
     if change.lnum >= selection.start_line and change.lnum <= selection.end_line then
       table.insert(lines, change)

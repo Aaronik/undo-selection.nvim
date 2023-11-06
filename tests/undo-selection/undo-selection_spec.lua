@@ -36,11 +36,7 @@ describe('find_undo_history_for_selection', function()
     vim.fn['undotree'] = function()
       return {
         entries = {
-          { lnum = 1 },
-          { lnum = 2 },
-          { lnum = 3 },
-          { lnum = 4 },
-          { lnum = 5 },
+          { lnum = 1 }, { lnum = 2 }, { lnum = 3 }, { lnum = 4 }, { lnum = 5 },
         }
       }
     end
