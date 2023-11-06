@@ -30,7 +30,7 @@ M.find_undo_history_for_selection = function(selection)
 
   for _, entry in ipairs(history.entries) do
     if entry.seq >= selection.start_line and entry.seq <= selection.end_line then
-      table.insert(changes, entry)
+      table.insert(changes, {seq = entry.seq, text = entry.text})
     end
   end
 
@@ -39,7 +39,7 @@ end
 
 M.undo_changes = function(changes)
   for _, change in ipairs(changes) do
-    vim.api.nvim_call_function('undo', {change.seq})
+    vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(), change.seq - 1, change.seq, false, {change.text})
   end
 end
 
