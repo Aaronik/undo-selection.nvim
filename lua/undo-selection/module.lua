@@ -3,8 +3,6 @@ local M = {}
 
 local util = require('util')
 
--- Now you can use util.print_table instead of print_table
-
 M.undo_selection = function()
   local selection = M.get_visual_selection()
   print('selection:')
@@ -28,28 +26,40 @@ M.find_undo_history_for_selection = function(selection)
   local history = vim.fn['undotree']()
   local lines = {}
 
-  -- This is the kind of thing we get from vim.fn['undotree']().entries
-  -- 8:
-  --   save: 7
-  --   seq: 19
-  --   time: 1699231991
-  --   newhead: 1
-  --   alt:
-  --     1:
-  --       time: 1699231974
-  --       seq: 14
-  --     2:
-  --       time: 1699231974
-  --       seq: 15
-  --     3:
-  --       time: 1699231974
-  --       seq: 16
-  --     4:
-  --       time: 1699231974
-  --       seq: 17
-  --     5:
-  --       time: 1699231974
-  --       seq: 18
+  -- history will look like:
+  -- seq_cur: 103
+  -- save_cur: 36
+  -- seq_last: 103
+  -- time_cur: 1699232889
+  -- save_last: 36
+  -- change
+  --   time: 1699226596
+  --   seq: 1
+  --   seq_last: 107
+  -- entries:
+  --   1:
+  --     time: 1699226596
+  --     seq: 1
+  --   2:
+  --     time: 1699226659
+  --     seq: 2
+  --   3:
+  --     time: 1699226715
+  --     seq: 3
+  --   4:
+  --     time: 1699226716
+  --     seq: 4
+  --     save: 1
+  --   5:
+  --     time: 1699226726
+  --     seq: 5
+  --     save: 2
+  --   6:
+  --     time: 1699226998
+  --     seq: 6
+  --   7:
+  --     time: 1699227000
+  --     seq: 7
 
   print('history\n')
   util.print_table(history)
