@@ -34,12 +34,26 @@ M.find_undo_history_for_selection = function(selection)
   --   seq: 1
   --   seq_last: 107
   -- entries:
+  -- 1:
+  -- alt:
   --   1:
-  --     time: 1699226596
-  --     seq: 1
+  --     alt:
+  --       1:
+  --         time: 1699227474
+  --         save: 10
+  --         seq: 27
+  --     save: 12
+  --     time: 1699227713
+  --     seq: 28
+  --   2:
+  --     time: 1699227736
+  --     seq: 29
+  -- seq: 30
+  -- time: 1699227787
   --   2:
   --     time: 1699226659
   --     save: 1
+  --     newhead: 1
   --     seq: 2
   --   etc
 
