@@ -15,6 +15,9 @@ describe("get_visual_selection", function()
     local current_buffer_contents = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     assert.same({ [1] = "Nonsense text 1", [2] = "Nonsense text 2", [3] = "" }, current_buffer_contents)
 
+    -- Delay to ensure the buffer is fully loaded
+    vim.api.nvim_command('sleep 100m')
+
     -- Select all the text in the buffer
     vim.api.nvim_input('ggVG')
 
