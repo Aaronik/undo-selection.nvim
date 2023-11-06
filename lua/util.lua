@@ -12,7 +12,7 @@ function M.print_table(t)
     end
   end
   vim.api.nvim_command("echo 'Press any key to continue'")
-  vim.api.nvim_command("silent! call getchar()")
+  -- vim.api.nvim_command("silent! call getchar()")
 end
 
 return M

@@ -7,7 +7,7 @@ local spy = require('luassert.spy')
 
 -- TODO I can't for the life of me get this working.
 describe("get_visual_selection", function()
-  pending("returns a table with the current visual selection", function()
+  it("returns a table with the current visual selection", function()
     -- Add some text to the buffer
     vim.api.nvim_exec([[ call append(0, ["Nonsense text 1", "Nonsense text 2"]) ]], false)
 
@@ -16,7 +16,6 @@ describe("get_visual_selection", function()
     assert.same({ [1] = "Nonsense text 1", [2] = "Nonsense text 2", [3] = "" }, current_buffer_contents)
 
     -- Select all the text in the buffer
-    -- vim.cmd([[ normal! ggVG ]], false)
     vim.api.nvim_input('ggVG')
 
     -- Delay to ensure the selection is registered
@@ -24,7 +23,7 @@ describe("get_visual_selection", function()
 
     -- Ensure get_visual_selection is getting the whole selection
     local selection = module.get_visual_selection()
-    assert.same({ start_line = 0, end_line = 2, start_column = 0, end_column = 15 }, selection)
+    assert.same({ start_line = 0, end_line = 2, start_column = 0, end_column = 2147483647 }, selection)
   end)
 end)
 
