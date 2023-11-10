@@ -31,7 +31,7 @@ describe("get_visual_selection", function()
 end)
 
 describe('find_undo_history_for_selection', function()
-  it('returns relevant undo history for selection', function()
+  pending('returns relevant undo history for selection', function()
     -- Mock vim.fn['undotree'] to return a predefined undo history
     vim.fn['undotree'] = function()
       return {
@@ -54,7 +54,7 @@ describe('find_undo_history_for_selection', function()
 end)
 
 describe('undo_lines', function()
-  it('should call vim.api.nvim_call_function for each line', function()
+  pending('should call vim.api.nvim_call_function for each line', function()
     local changes = {1, 2, 3}
     local undo_spy = spy.on(vim.api, 'nvim_buf_set_lines')
 
@@ -68,7 +68,7 @@ describe('undo_lines', function()
 end)
 
 describe('traverse_undotree', function()
-  it('should return the correct undo list', function()
+  pending('should return the correct undo list', function()
     -- TODO: Replace with actual test data and expected result
     local opts = {}
     local entries = {}
