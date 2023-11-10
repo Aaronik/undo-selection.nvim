@@ -20,6 +20,7 @@ end
 M.undo_selection = function()
   package.loaded['undo-selection.module'] = nil
   local module = require('undo-selection.module')
+  -- print('hi from undo_selection')
   return module.undo_selection()
 end
 

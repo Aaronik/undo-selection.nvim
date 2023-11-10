@@ -3,6 +3,32 @@ local M = {}
 
 local util = require('util')
 
+local function apply_changes_to_buffer()
+  -- Assuming `text_edits` is a table containing the diff in the form of text edits
+  -- where each text edit has `range` and `newText` keys.
+  local text_edits = {
+    {
+      range = {
+        start = { line = 0, character = 0 },
+        ["end"] = { line = 0, character = 0 },
+      },
+      newText = "replacement text"
+    },
+    -- ... more text edits
+  }
+  -- The buffer to apply the text edits to (0 for the current buffer)
+  local bufnr = 0
+  -- Apply the text edits to the buffer
+  require('vim.lsp.util').apply_text_edits(text_edits, bufnr, 'utf-8')
+end
+
+local function _aarons_traverse_undotree()
+  -- local ut = vim.fn.undotree()
+  -- local entries = ut.entries
+
+  apply_changes_to_buffer()
+end
+
 local function _traverse_undotree(opts, entries, level)
   local undolist = {}
   -- create diffs for each entry in our undotree
@@ -120,17 +146,18 @@ local function build_undolist(opts)
   local ut = vim.fn.undotree()
 
   -- TODO: maybe use this opportunity to limit the number of root nodes we process overall, to ensure good performance
-  local undolist = _traverse_undotree(opts, ut.entries, 0)
+  -- This is causing some major problems in every buffer it's run in.
+  local undolist = _aarons_traverse_undotree()
 
-  print('undolist:')
-  util.print_table(undolist)
+  -- print('undolist:')
+  -- util.print_table(undolist)
 
-  -- restore everything after all diffs have been created
-  -- BUG: `gi` (last insert location) is being killed by our method, we should save that as well
-  vim.cmd("silent undo " .. ut.seq_cur)
-  vim.api.nvim_win_set_cursor(0, cursor)
+  -- -- restore everything after all diffs have been created
+  -- -- BUG: `gi` (last insert location) is being killed by our method, we should save that as well
+  -- vim.cmd("silent undo " .. ut.seq_cur)
+  -- vim.api.nvim_win_set_cursor(0, cursor)
 
-  return undolist
+  -- return undolist
 end
 
 -- The main function
@@ -143,9 +170,11 @@ M.undo_selection = function()
   -- print('changes')
   -- util.print_table(changes)
 
-  local undolist = build_undolist({})
-  print('undolist')
-  util.print_table(undolist)
+  -- local undolist = build_undolist({})
+  -- print('undolist')
+  -- util.print_table(undolist)
+
+  _aarons_traverse_undotree()
 end
 
 -- Just get some data about the current visual selection
@@ -166,7 +195,7 @@ M.find_undo_history_for_selection = function(selection)
 
   for _, entry in ipairs(history.entries) do
     if entry.seq >= selection.start_line and entry.seq <= selection.end_line then
-      table.insert(changes, {seq = entry.seq, text = entry.text})
+      table.insert(changes, { seq = entry.seq, text = entry.text })
     end
   end
 
@@ -177,7 +206,7 @@ end
 -- and apply the changes to the selected lines in the buffer.
 M.undo_changes = function(changes)
   for _, change in ipairs(changes) do
-    vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(), change.seq - 1, change.seq, false, {change.text})
+    vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(), change.seq - 1, change.seq, false, { change.text })
   end
 end
 
